@@ -31,12 +31,11 @@ public class DoJoinPoint {
     public void aopPoint() {
     }
 
-    @Around("aopPoint()")
-    public Object doRouter(ProceedingJoinPoint jp) throws Throwable {
+    @Around("aopPoint() && @annotation(whiteList)")
+    public Object doRouter(ProceedingJoinPoint jp,DoWhiteList whiteList) throws Throwable {
         // 获取内容
         Method method = getMethod(jp);
-        DoWhiteList whiteList = method.getAnnotation(DoWhiteList.class);
-
+        //DoWhiteList whiteList = method.getAnnotation(DoWhiteList.class);
         // 获取字段值
         String keyValue = getFiledValue(whiteList.key(), jp.getArgs());
         logger.info("middleware whitelist handler method：{} value：{}", method.getName(), keyValue);
